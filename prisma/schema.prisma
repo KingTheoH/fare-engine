@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Search {
+  id         String   @id @default(cuid())
+  raw_query  String
+  origin     String
+  destination String
+  date_out   String
+  date_back  String?
+  passengers Int      @default(1)
+  deal_types String   @default("fuel_dump,hidden_city,throwaway,yq_free")
+  deal_count Int      @default(0)
+  created_at DateTime @default(now())
+  deals      Deal[]
+}
+
+model Deal {
+  id              String   @id @default(cuid())
+  search_id       String
+  search          Search   @relation(fields: [search_id], references: [id])
+  source          String
+  deal_type       String
+  origin          String
+  destination     String
+  airline_codes   String
+  segments_json   String
+  total_price_usd Float
+  normal_fare_usd Float
+  savings_usd     Float
+  savings_pct     Float
+  explanation     String
+  confidence      String
+  caveats_json    String   @default("[]")
+  booking_url     String
+  is_saved        Boolean  @default(false)
+  fetched_at      DateTime
+  created_at      DateTime @default(now())
+}
+
+model OfferCache {
+  id          String   @id @default(cuid())
+  origin      String
+  destination String
+  date_out    String
+  source      String
+  payload     String
+  fetched_at  DateTime @default(now())
+
+  @@unique([origin, destination, date_out, source])
+}
+
+model Settings {
+  id                String   @id @default("singleton")
+  kiwi_api_key      String   @default("")
+  serpapi_key       String   @default("")
+  home_airport      String   @default("")
+  default_passengers Int     @default(1)
+  currency          String   @default("USD")
+  updated_at        DateTime @updatedAt
+}
