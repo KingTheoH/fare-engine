@@ -1,0 +1,48 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Alembic (don't ignore versions/ — those are committed)
+# alembic/versions/  ← keep this commented out
+
+# Playwright
+automation/screenshots/
+test-results/
+playwright-report/
+
+# Node
+node_modules/
+.next/
+frontend/.next/
+frontend/out/
+frontend/build/
+
+# Docker
+*.log
+
+# macOS
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# Secrets
+*.pem
+*.key
