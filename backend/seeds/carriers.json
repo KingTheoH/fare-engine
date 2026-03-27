@@ -1,0 +1,37 @@
+[
+  {"iata_code": "LH", "name": "Lufthansa", "alliance": "STAR", "charges_yq": true, "typical_yq_usd": 580.0},
+  {"iata_code": "BA", "name": "British Airways", "alliance": "ONEWORLD", "charges_yq": true, "typical_yq_usd": 550.0},
+  {"iata_code": "LX", "name": "Swiss International Air Lines", "alliance": "STAR", "charges_yq": true, "typical_yq_usd": 520.0},
+  {"iata_code": "OS", "name": "Austrian Airlines", "alliance": "STAR", "charges_yq": true, "typical_yq_usd": 480.0},
+  {"iata_code": "SN", "name": "Brussels Airlines", "alliance": "STAR", "charges_yq": true, "typical_yq_usd": 460.0},
+  {"iata_code": "IB", "name": "Iberia", "alliance": "ONEWORLD", "charges_yq": true, "typical_yq_usd": 380.0},
+  {"iata_code": "CX", "name": "Cathay Pacific", "alliance": "ONEWORLD", "charges_yq": true, "typical_yq_usd": 400.0},
+  {"iata_code": "KE", "name": "Korean Air", "alliance": "SKYTEAM", "charges_yq": true, "typical_yq_usd": 350.0},
+  {"iata_code": "OZ", "name": "Asiana Airlines", "alliance": "STAR", "charges_yq": true, "typical_yq_usd": 340.0},
+  {"iata_code": "AF", "name": "Air France", "alliance": "SKYTEAM", "charges_yq": true, "typical_yq_usd": 280.0},
+  {"iata_code": "KL", "name": "KLM Royal Dutch Airlines", "alliance": "SKYTEAM", "charges_yq": true, "typical_yq_usd": 270.0},
+  {"iata_code": "AY", "name": "Finnair", "alliance": "ONEWORLD", "charges_yq": true, "typical_yq_usd": 240.0},
+  {"iata_code": "SK", "name": "SAS Scandinavian Airlines", "alliance": "STAR", "charges_yq": true, "typical_yq_usd": 220.0},
+  {"iata_code": "LO", "name": "LOT Polish Airlines", "alliance": "STAR", "charges_yq": true, "typical_yq_usd": 200.0},
+  {"iata_code": "TP", "name": "TAP Air Portugal", "alliance": "STAR", "charges_yq": true, "typical_yq_usd": 190.0},
+  {"iata_code": "AZ", "name": "ITA Airways", "alliance": "SKYTEAM", "charges_yq": true, "typical_yq_usd": 180.0},
+
+  {"iata_code": "QR", "name": "Qatar Airways", "alliance": "ONEWORLD", "charges_yq": false, "typical_yq_usd": 0.0},
+  {"iata_code": "EK", "name": "Emirates", "alliance": "NONE", "charges_yq": false, "typical_yq_usd": 0.0},
+  {"iata_code": "EY", "name": "Etihad Airways", "alliance": "NONE", "charges_yq": false, "typical_yq_usd": 0.0},
+  {"iata_code": "TK", "name": "Turkish Airlines", "alliance": "STAR", "charges_yq": false, "typical_yq_usd": 15.0},
+  {"iata_code": "SQ", "name": "Singapore Airlines", "alliance": "STAR", "charges_yq": false, "typical_yq_usd": 20.0},
+  {"iata_code": "ET", "name": "Ethiopian Airlines", "alliance": "STAR", "charges_yq": false, "typical_yq_usd": 10.0},
+  {"iata_code": "RJ", "name": "Royal Jordanian", "alliance": "ONEWORLD", "charges_yq": false, "typical_yq_usd": 5.0},
+
+  {"iata_code": "AA", "name": "American Airlines", "alliance": "ONEWORLD", "charges_yq": false, "typical_yq_usd": 0.0},
+  {"iata_code": "UA", "name": "United Airlines", "alliance": "STAR", "charges_yq": false, "typical_yq_usd": 0.0},
+  {"iata_code": "DL", "name": "Delta Air Lines", "alliance": "SKYTEAM", "charges_yq": false, "typical_yq_usd": 0.0},
+
+  {"iata_code": "NH", "name": "All Nippon Airways", "alliance": "STAR", "charges_yq": true, "typical_yq_usd": 160.0},
+  {"iata_code": "JL", "name": "Japan Airlines", "alliance": "ONEWORLD", "charges_yq": true, "typical_yq_usd": 150.0},
+  {"iata_code": "MS", "name": "EgyptAir", "alliance": "STAR", "charges_yq": false, "typical_yq_usd": 25.0},
+  {"iata_code": "LA", "name": "LATAM Airlines", "alliance": "ONEWORLD", "charges_yq": true, "typical_yq_usd": 130.0},
+  {"iata_code": "QF", "name": "Qantas", "alliance": "ONEWORLD", "charges_yq": true, "typical_yq_usd": 320.0},
+  {"iata_code": "VS", "name": "Virgin Atlantic", "alliance": "SKYTEAM", "charges_yq": true, "typical_yq_usd": 450.0}
+]

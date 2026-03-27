@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: #ffffff;
+  color: #202124;
+  font-family: 'Google Sans', 'Segoe UI', Roboto, -apple-system, sans-serif;
+}
+
+.routing-code {
+  font-family: 'Roboto Mono', 'SF Mono', 'Consolas', monospace;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.15s ease-out;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media print {
+  nav, .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  body { background: white; }
+}

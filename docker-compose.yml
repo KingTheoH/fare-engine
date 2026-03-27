@@ -51,25 +51,29 @@ services:
   #       condition: service_healthy
   #   command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
-  # Uncomment in Phase 08
-  # celery-worker:
-  #   build:
-  #     context: ./backend
-  #     dockerfile: Dockerfile
-  #   env_file: .env
-  #   depends_on:
-  #     - postgres
-  #     - redis
-  #   command: celery -A app.tasks.celery_app worker --loglevel=info --concurrency=5
+  celery-worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: celery -A app.tasks.celery_app worker --loglevel=info --concurrency=5 -Q default,validation,yq,ingestion,alerts
+    restart: unless-stopped
 
-  # celery-beat:
-  #   build:
-  #     context: ./backend
-  #     dockerfile: Dockerfile
-  #   env_file: .env
-  #   depends_on:
-  #     - redis
-  #   command: celery -A app.tasks.celery_app beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+  celery-beat:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file: .env
+    depends_on:
+      redis:
+        condition: service_healthy
+    command: celery -A app.tasks.celery_app beat --loglevel=info
+    restart: unless-stopped
 
   # Uncomment in Phase 10
   # frontend:

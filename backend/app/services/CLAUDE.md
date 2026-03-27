@@ -52,12 +52,25 @@ confidence = (
 
 All components clamped to [0.0, 1.0]. Final score also clamped.
 
-## Lifecycle Transition Rules
+## Lifecycle Transition Rules (updated 2026-03)
+
+Infrastructure errors (proxy timeout, bot detection, etc.) are now filtered out
+in `validation_service.py` and do NOT count toward lifecycle transitions. Only
+genuine pattern failures (ITA returned results but YQ wasn't reduced) affect state.
 
 | From | To | Trigger |
 |------|----|---------|
 | discovered | active | First successful validation |
-| active | degrading | Success rate < 60% over last 5 runs |
+| active | degrading | Success rate < 40% over last 10 runs (was 60%/5) |
 | degrading | active | 2 consecutive successes (pattern recovered) |
-| degrading | deprecated | 3 consecutive failures |
+| degrading | deprecated | 5 consecutive pattern failures (was 3) |
+| deprecated | discovered | Manual resurrection by agent (re-enters validation queue) |
 | deprecated | archived | Manual action only (agents review before archiving) |
+
+## YQ Success Evaluation (updated 2026-03)
+
+Two-pronged test (either passing = success):
+1. **Absolute**: YQ charged < $20 (was $10)
+2. **Relative**: YQ reduced by ≥75% from expected baseline
+
+This prevents partial dumps saving $400+ from being marked as failures.
