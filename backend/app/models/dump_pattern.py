@@ -104,6 +104,11 @@ class DumpPattern(TimestampMixin, Base):
         nullable=True,
         comment="The injected short-haul segment that disrupts YQ calculation",
     )
+    strike_segment: Mapped[dict | None] = mapped_column(
+        JSONB,
+        nullable=True,
+        comment="Throwaway segment appended to end of routing to zero YQ {origin, destination, carrier, note}",
+    )
     baseline_price_usd: Mapped[float | None] = mapped_column(
         Float,
         nullable=True,

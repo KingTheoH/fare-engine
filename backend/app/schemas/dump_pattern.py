@@ -51,6 +51,10 @@ class DumpPatternCreate(BaseModel):
     dump_segment: dict | None = Field(
         default=None, description="The injected short-haul segment {from, to, carrier, notes}"
     )
+    strike_segment: dict | None = Field(
+        default=None,
+        description="Throwaway segment appended to end of routing to zero YQ {origin, destination, carrier, note}",
+    )
     expected_yq_savings_usd: float | None = Field(
         default=None, ge=0, description="Expected YQ savings per roundtrip in USD"
     )
@@ -85,6 +89,7 @@ class DumpPatternUpdate(BaseModel):
     optimized_routing: str | None = None
     multi_city_segments: list[dict] | None = None
     dump_segment: dict | None = None
+    strike_segment: dict | None = None
     baseline_price_usd: float | None = Field(default=None, ge=0)
     optimized_price_usd: float | None = Field(default=None, ge=0)
     expected_yq_savings_usd: float | None = Field(default=None, ge=0)
@@ -153,6 +158,7 @@ class DumpPatternResponse(BaseModel):
     optimized_routing: str | None
     multi_city_segments: list[dict] | None
     dump_segment: dict | None
+    strike_segment: dict | None
     baseline_price_usd: float | None
     optimized_price_usd: float | None
     last_scan_at: datetime | None

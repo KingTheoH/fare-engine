@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 
 # ─── Valid values ──────────────────────────────────────────────────────────
 
-VALID_DUMP_TYPES = {"TP_DUMP", "CARRIER_SWITCH", "FARE_BASIS", "ALLIANCE_RULE"}
+VALID_DUMP_TYPES = {"TP_DUMP", "CARRIER_SWITCH", "FARE_BASIS", "ALLIANCE_RULE", "STRIKE_SEGMENT"}
 
 # Known carrier IATA codes — HARD validation. Unknown carriers are REJECTED.
 # If a real carrier gets rejected, add it here AND to seeds/carriers.json.
@@ -39,6 +39,10 @@ KNOWN_CARRIERS = {
     "OZ", "PG", "PR", "QF", "QR", "RJ", "SA", "SK", "SN", "SQ",
     "SU", "SV", "TG", "TK", "TP", "UA", "UL", "UX", "VA", "VN",
     "VS", "WN", "WS",
+    # Strike-segment carriers (no-YQ, used as throwaway final legs)
+    "HY",  # Uzbekistan Airways — SKD→TAS canonical strike carrier
+    "QH",  # Air Bishkek — FRU→OSS
+    "FZ",  # flydubai — DXB→AUH
 }
 
 # Minimum YQ savings to justify storing a pattern (USD).
@@ -184,6 +188,22 @@ def normalize_pattern(
         return _reject("fare_basis_hint", "None",
                         "FARE_BASIS requires a fare basis code")
 
+    # ─── Validate STRIKE_SEGMENT-specific requirements ───────────────
+    strike_segment = getattr(extracted, "strike_segment", None)
+    if dump_type == "STRIKE_SEGMENT":
+        if not strike_segment:
+            return _reject("strike_segment", "None",
+                           "STRIKE_SEGMENT requires a strike_segment field {origin, destination, carrier}")
+        seg_origin = strike_segment.get("origin", "").upper().strip()
+        seg_dest = strike_segment.get("destination", "").upper().strip()
+        seg_carrier = strike_segment.get("carrier", "").upper().strip()
+        if not _is_valid_airport(seg_origin):
+            warnings.append(f"strike_segment origin {seg_origin!r} not in known airports — storing anyway")
+        if not _is_valid_airport(seg_dest):
+            warnings.append(f"strike_segment destination {seg_dest!r} not in known airports — storing anyway")
+        if not _is_valid_carrier(seg_carrier):
+            warnings.append(f"strike_segment carrier {seg_carrier!r} not in known carriers — storing anyway")
+
     # ─── Generate ITA routing code ──────────────────────────────────
     routing_code = _build_routing_code(
         dump_type=dump_type,
@@ -228,6 +248,7 @@ def normalize_pattern(
         "source": "FLYERTALK",
         "source_url": source_url,
         "source_post_weight": source_post_weight,
+        "strike_segment": strike_segment,  # None for non-STRIKE_SEGMENT types
     }
     # Store grounding quote as part of the manual_input_bundle metadata
     # (source_quote is not a DB column — it travels with the pattern for audit)
@@ -368,6 +389,15 @@ def _build_routing_code(
         else:
             route = f"{origin}-{destination}"
         return f"FORCE {carrier_str}:{route}"
+
+    elif dump_type == "STRIKE_SEGMENT":
+        # Main routing + appended throwaway strike leg
+        # The strike_segment itself is stored in the column; routing code covers main trip
+        if routing_points:
+            route = "-".join([origin] + routing_points + [destination])
+        else:
+            route = f"{origin}-{destination}"
+        return f"FORCE {ticketing_carrier}:{route}"
 
     else:
         # Fallback: simple FORCE routing

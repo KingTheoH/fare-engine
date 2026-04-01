@@ -152,6 +152,26 @@ export const MOCK_PATTERNS: DumpPatternSummary[] = [
     updated_at: "2026-03-24T07:00:00Z",
   },
   {
+    id: "c9d0e1f2-a3b4-5678-cdef-789012345678",
+    dump_type: "STRIKE_SEGMENT",
+    lifecycle_state: "discovered",
+    origin_iata: "LHR",
+    destination_iata: "SIN",
+    ticketing_carrier_iata: "SQ",
+    operating_carriers: ["SQ"],
+    routing_points: [],
+    expected_yq_savings_usd: 420,
+    baseline_price_usd: null,
+    optimized_price_usd: null,
+    confidence_score: 0.61,
+    freshness_tier: 2,
+    source: "FLYERTALK",
+    source_url: "https://flyertalk.com/forum/thread/strike-seg-example",
+    last_scan_at: null,
+    created_at: "2026-03-28T09:00:00Z",
+    updated_at: "2026-03-31T10:00:00Z",
+  },
+  {
     id: "b8c9d0e1-f2a3-4567-bcde-678901234567",
     dump_type: "TP_DUMP",
     lifecycle_state: "active",
@@ -186,6 +206,7 @@ export const MOCK_PATTERN_DETAIL: DumpPatternResponse = {
     { from: "FRA", to: "AMS", carrier: null, via: null, notes: "Dump — FRA→AMS Star Alliance zone boundary (no routing code on this leg)" },
   ],
   dump_segment: { from: "FRA", to: "AMS", carrier: null, notes: "Star Alliance zone boundary disrupts LH intra-Europe YQ chain" },
+  strike_segment: null,
   manual_input_bundle: {
     routing_code_string: "LH+ FRA,MUC",
     human_description:
@@ -218,6 +239,7 @@ export const MOCK_PATTERN_DETAIL: DumpPatternResponse = {
     origin_iata: "JFK",
     destination_iata: "BKK",
     fare_basis_hint: "YLOWUS",
+    strike_segment: null,
   },
 };
 

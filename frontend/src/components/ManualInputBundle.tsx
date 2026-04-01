@@ -362,6 +362,29 @@ function ScanEngineView({
         )}
       </div>
 
+      {/* Strike Segment callout */}
+      {bundle.strike_segment && (
+        <div className="mx-5 mb-4 border border-amber-200 bg-amber-50 rounded-md px-4 py-3">
+          <div className="text-[11px] font-semibold text-amber-700 uppercase tracking-wider mb-1.5">
+            ⚡ Strike Segment Required
+          </div>
+          <p className="text-[13px] text-amber-900">
+            Append{" "}
+            <span className="font-mono font-semibold">
+              {bundle.strike_segment.origin}→{bundle.strike_segment.destination}
+            </span>{" "}
+            on{" "}
+            <span className="font-semibold">{bundle.strike_segment.carrier}</span>{" "}
+            as a throwaway final leg — do not fly it.
+          </p>
+          {bundle.strike_segment.note && (
+            <p className="text-[11px] text-amber-700 mt-1.5 leading-relaxed">
+              {bundle.strike_segment.note}
+            </p>
+          )}
+        </div>
+      )}
+
       {/* Steps checklist */}
       <div className="px-5 py-4 border-b border-[#e8eaed]">
         <span className="text-[11px] font-medium text-[#5f6368] uppercase tracking-wider">
@@ -543,6 +566,29 @@ function ValidatedView({
           {bundle.human_description}
         </p>
       </div>
+
+      {/* Strike Segment callout */}
+      {bundle.strike_segment && (
+        <div className="mx-5 mb-4 border border-amber-200 bg-amber-50 rounded-md px-4 py-3">
+          <div className="text-[11px] font-semibold text-amber-700 uppercase tracking-wider mb-1.5">
+            ⚡ Strike Segment Required
+          </div>
+          <p className="text-[13px] text-amber-900">
+            Append{" "}
+            <span className="font-mono font-semibold">
+              {bundle.strike_segment.origin}→{bundle.strike_segment.destination}
+            </span>{" "}
+            on{" "}
+            <span className="font-semibold">{bundle.strike_segment.carrier}</span>{" "}
+            as a throwaway final leg — do not fly it.
+          </p>
+          {bundle.strike_segment.note && (
+            <p className="text-[11px] text-amber-700 mt-1.5 leading-relaxed">
+              {bundle.strike_segment.note}
+            </p>
+          )}
+        </div>
+      )}
 
       {/* Steps checklist */}
       <div className="px-5 py-4 border-b border-[#e8eaed]">

@@ -70,6 +70,7 @@ Extract ALL distinct dump patterns described in this post. For each pattern, ide
    - "CARRIER_SWITCH": Using a no-YQ carrier on a surcharge-bearing sector
    - "FARE_BASIS": A specific fare basis code structurally excludes YQ
    - "ALLIANCE_RULE": Interline agreement between specific carrier pairs waives YQ
+   - "STRIKE_SEGMENT": A throwaway leg appended to the END of the routing on a no-YQ carrier zeroes surcharges for the whole ticket (e.g. adding SKD→TAS on Uzbekistan Airways as a final segment)
 
 2. **origin** — 3-letter IATA origin airport code (must appear explicitly in the post)
 3. **destination** — 3-letter IATA destination airport code (must appear explicitly in the post)
@@ -87,6 +88,18 @@ Extract ALL distinct dump patterns described in this post. For each pattern, ide
 13. **source_quote** — a SHORT direct quote (≤40 words) from the post that most clearly
     establishes the core routing or carrier construction. If you cannot find a specific
     quote that establishes the route, set confidence to "low".
+14. **strike_segment** — ONLY if dump_type is "STRIKE_SEGMENT" (or any pattern that explicitly
+    appends a throwaway final leg): extract as {"origin": "SKD", "destination": "TAS",
+    "carrier": "HY", "note": "brief reason this leg zeroes YQ"}. Set to null for all other
+    dump types unless the post specifically describes appending a throwaway segment.
+
+STRIKE SEGMENT RECOGNITION:
+Look for language like: "add a [city] leg at the end", "throwaway segment", "append [carrier]
+flight to complete the routing", "tack on a [route] flight", "book [route] as the last segment".
+Known historical strike segments: SKD→TAS on HY (Uzbekistan domestic, ~2022–2024, mostly patched),
+TAS→SKD on HY, FRU→OSS on QH (Air Bishkek). If you see references to these or similar
+Central Asian / no-YQ carrier domestic legs appended to intercontinental routings, classify
+as STRIKE_SEGMENT and extract the strike_segment field.
 
 IMPORTANT RULES:
 - Only extract IATA codes you can see written in the post. Do NOT infer or guess codes
@@ -113,7 +126,8 @@ Respond ONLY with a JSON object:
       "confidence": "high",
       "confirmation_signals": ["just booked this last week"],
       "deprecation_signals": [],
-      "source_quote": "ticketed on LH via FRA, zero YQ on the BKK sector"
+      "source_quote": "ticketed on LH via FRA, zero YQ on the BKK sector",
+      "strike_segment": null
     }
   ],
   "extraction_notes": "any relevant notes about ambiguity or assumptions"
@@ -156,6 +170,7 @@ class ExtractedPatternData:
     confirmation_signals: list[str] = field(default_factory=list)
     deprecation_signals: list[str] = field(default_factory=list)
     source_quote: str | None = None  # Grounding quote from the post
+    strike_segment: dict | None = None  # {origin, destination, carrier, note} — STRIKE_SEGMENT type only
 
 
 @dataclass
@@ -296,6 +311,7 @@ class LLMExtractor:
                             confirmation_signals=raw_pattern.get("confirmation_signals", []),
                             deprecation_signals=raw_pattern.get("deprecation_signals", []),
                             source_quote=raw_pattern.get("source_quote"),
+                            strike_segment=raw_pattern.get("strike_segment"),
                         )
                     )
 

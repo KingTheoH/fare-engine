@@ -23,6 +23,7 @@ class DumpType(str, enum.Enum):
     CARRIER_SWITCH = "CARRIER_SWITCH"  # No-YQ carrier on the surcharge-bearing sector
     FARE_BASIS = "FARE_BASIS"      # Specific fare basis code structurally excludes YQ
     ALLIANCE_RULE = "ALLIANCE_RULE"  # Interline agreement waives YQ between specific pairs
+    STRIKE_SEGMENT = "STRIKE_SEGMENT"  # Throwaway segment appended to end of routing — no-YQ carrier zeroes surcharges on full ticket
 
 
 class LifecycleState(str, enum.Enum):

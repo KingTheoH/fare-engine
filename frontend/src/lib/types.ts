@@ -15,6 +15,13 @@ export interface DumpSegment {
   notes: string | null;
 }
 
+export interface StrikeSegment {
+  origin: string;
+  destination: string;
+  carrier: string;
+  note?: string | null;
+}
+
 export interface ManualInputBundle {
   routing_code_string: string;
   human_description: string;
@@ -36,6 +43,8 @@ export interface ManualInputBundle {
   origin_iata?: string;
   destination_iata?: string;
   fare_basis_hint?: string | null;
+  // Strike segment — throwaway leg appended to zero YQ
+  strike_segment?: StrikeSegment | null;
 }
 
 export interface DumpPatternSummary {
@@ -69,6 +78,7 @@ export interface DumpPatternResponse extends DumpPatternSummary {
   optimized_routing: string | null;
   multi_city_segments: MultiCitySegment[] | null;
   dump_segment: DumpSegment | null;
+  strike_segment: StrikeSegment | null;
   source_post_weight: number;
   backup_pattern_id: string | null;
 }
